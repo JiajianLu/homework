@@ -23,7 +23,7 @@ def lander_model(obs, num_actions, scope, reuse=False):
 def lander_optimizer():
     return dqn.OptimizerSpec(
         constructor=tf.train.AdamOptimizer,
-        lr_schedule=ConstantSchedule(1e-3),
+        lr_schedule=ConstantSchedule(1.5e-3),
         kwargs={}
     )
 
@@ -71,7 +71,7 @@ def lander_learn(env,
         session=session,
         exploration=lander_exploration_schedule(num_timesteps),
         stopping_criterion=lander_stopping_criterion(num_timesteps),
-        double_q=True,
+        double_q=False,
         **lander_kwargs()
     )
     env.close()
@@ -99,13 +99,13 @@ def get_env(seed):
     env.seed(seed)
 
     expt_dir = '/tmp/hw3_vid_dir/'
-    env = wrappers.Monitor(env, osp.join(expt_dir, "gym"), force=True)
+    env = wrappers.Monitor(env, osp.join(expt_dir, "gym"), force=True, video_callable = False)
 
     return env
 
 def main():
     # Run training
-    seed = 4565 # you may want to randomize this
+    seed = 86252#random.randint(10,40000) # you may want to randomize this
     print('random seed = %d' % seed)
     env = get_env(seed)
     session = get_session()

@@ -3,12 +3,11 @@
 """
 Code to load an expert policy and generate roll-out data for behavioral cloning.
 Example usage:
-    python run_expert.py experts/Humanoid-v1.pkl Humanoid-v1 --render \
-            --num_rollouts 20
+    python run_expert.py experts/Hopper-v2.pkl Hopper-v2 --render \
+            --num_rollouts 100
 
 Author of this script and included expert policies: Jonathan Ho (hoj@openai.com)
 """
-
 import os
 import pickle
 import tensorflow as tf
@@ -16,6 +15,7 @@ import numpy as np
 import tf_util
 import gym
 import load_policy
+
 
 def main():
     import argparse
@@ -45,6 +45,7 @@ def main():
         for i in range(args.num_rollouts):
             print('iter', i)
             obs = env.reset()
+            
             done = False
             totalr = 0.
             steps = 0
@@ -52,12 +53,17 @@ def main():
                 action = policy_fn(obs[None,:])
                 observations.append(obs)
                 actions.append(action)
-                obs, r, done, _ = env.step(action)
-                totalr += r
+                obs, r, done, _ = env.step(action) #r is reward
+                totalr += r #total reward
                 steps += 1
                 if args.render:
                     env.render()
-                if steps % 100 == 0: print("%i/%i"%(steps, max_steps))
+                if steps % 100 == 0: 
+                	print("%i/%i"%(steps, max_steps))
+                	# print(np.shape(obs))
+                	# print(obs)
+                	# print(np.shape(action))
+                	# print(action)
                 if steps >= max_steps:
                     break
             returns.append(totalr)

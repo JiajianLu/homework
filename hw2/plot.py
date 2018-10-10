@@ -5,7 +5,18 @@ import json
 import os
 
 """
-Using the plotter:
+
+python plot.py data/lb_no_rtg_dna_CartPole-v0 data/lb_rtg_dna_CartPole-v0 data/lb_rtg_na_CartPole-v0 --legend trajectory_reward reward_to_go reward_to_go_center
+--value AverageReturn
+python plot.py data/sb_no_rtg_dna_CartPole-v0 data/sb_rtg_dna_CartPole-v0 data/sb_rtg_na_CartPole-v0 --legend trajectory_reward reward_to_go reward_to_go_center
+
+python plot.py data/hc_b_r_10000_02_HalfCheetah-v2 data/hc_b_r_10000_01_HalfCheetah-v2 data/hc_b_r_10000_005_HalfCheetah-v2 data/hc_b_r_30000_02_HalfCheetah-v2 data/hc_b_r_30000_01_HalfCheetah-v2 data/hc_b_r_30000_005_HalfCheetah-v2 data/hc_b_r_50000_02_HalfCheetah-v2 data/hc_b_r_50000_01_HalfCheetah-v2 data/hc_b_r_50000_005_HalfCheetah-v2
+
+python plot.py data/hc_b_r_095_50000_01_HalfCheetah-v2 data/hc_b_r_095_50000_01_rtg_HalfCheetah-v2 data/hc_b_r_095_50000_01_nn_HalfCheetah-v2 data/hc_b_r_095_50000_01_rtg_nn_HalfCheetah-v2
+
+--value AverageReturn 
+--legend Learning_Curve 
+Using the plotter:  
 
 Call it from the command line, and supply it with logdirs to experiments.
 Suppose you ran an experiment with name 'test', and you ran 'test' for 10 
@@ -29,18 +40,22 @@ random seeds. The runner code stored it in the directory structure
 To plot learning curves from the experiment, averaged over all random
 seeds, call
 
-    python plot.py data/test_EnvName_DateTime --value AverageReturn
+    python plot.py data/hc_b_r_InvertedPendulum-v2_20-09-2018_02-17-33 --value AverageReturn
+    python plot.py data/ll_b40000_r0.005_LunarLanderContinuous-v2 --value AverageReturn --legend Learning_Curve
+
+python plot.py data/hc_b_r_HalfCheetah-v2_1_05 data/hc_b_r_HalfCheetah-v2_19-09-2018_18-13-34 
 
 and voila. To see a different statistics, change what you put in for
 the keyword --value. You can also enter /multiple/ values, and it will 
 make all of them in order.
 
+python plot.py data/sb_no_rtg_dna_CartPole-v0_19-09-2018_11-37-54 data/sb_no_rtg_dna_CartPole-v0_19-09-2018_12-21-19
 
 Suppose you ran two experiments: 'test1' and 'test2'. In 'test2' you tried
 a different set of hyperparameters from 'test1', and now you would like 
 to compare them -- see their learning curves side-by-side. Just call
 
-    python plot.py data/test1 data/test2
+    python plot.py data/sb_no_rtg_dna_CartPole-v0 data/sb_rtg_dna_CartPole-v0 data/sb_rtg_na_CartPole-v0
 
 and it will plot them both! They will be given titles in the legend according
 to their exp_name parameters. If you want to use custom legend titles, use
@@ -85,7 +100,7 @@ def get_datasets(fpath, condition=None):
             unit += 1
 
     return datasets
-
+#/data/
 
 def main():
     import argparse
